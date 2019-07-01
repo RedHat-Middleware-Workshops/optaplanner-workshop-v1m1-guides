@@ -1,0 +1,14 @@
+config:
+    renderer: markdown
+
+modules:
+  intro:
+    name: Introduction
+  use-case-overview:
+    name: Use Case Introduction
+  optaplanner-introduction:
+    name: OptaPlanner Introduction
+  domain-model:
+    name: Domain Modelling
+  finish:
+    name: Conclusion
