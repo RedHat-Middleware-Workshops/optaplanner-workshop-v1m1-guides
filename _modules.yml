@@ -8,6 +8,8 @@ modules:
     name: Use Case Introduction
   optaplanner-introduction:
     name: OptaPlanner Introduction
+  import-labs:
+    name: Import the labs project
   domain-model:
     name: Domain Modelling
   finish:
