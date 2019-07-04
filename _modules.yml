@@ -12,5 +12,9 @@ modules:
     name: Import the labs project
   domain-model:
     name: Domain Modelling
+  domain-model-planning-solution:
+    name: Domain Model Planning Solution
+  persistence:
+    name: Persistence
   finish:
     name: Conclusion

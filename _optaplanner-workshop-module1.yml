@@ -34,4 +34,6 @@ modules:
   - import-labs
   - optaplanner-introduction
   - domain-model
+  - domain-model-planning-solution
+  - persistence
   - finish
