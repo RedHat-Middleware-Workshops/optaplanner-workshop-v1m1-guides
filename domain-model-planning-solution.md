@@ -76,6 +76,7 @@ A `ValueRangeProvider` is usually defined on the `PlanningSolution`, although th
 3. Annotate the method with the following annotation:
 ```
 @ValueRangeProvider(id = "computerRange")
+public List<CloudComputer> getComputerList() {
 ```
 
 4. We now need to define the value range provider on our planning variable. Open the `CloudProcess` class, i.e. our planning entity. Locate the `getComputer` method that we've annotated earlier with our `@PlanningVariable` annotation. Add the _value range provider_ references to the annotation to refer to the `ValueRangeProvider` we just configured on our planning solution class.

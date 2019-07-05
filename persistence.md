@@ -128,3 +128,188 @@ public class CloudBalanceRepository {
     }
 }
 ```
+
+6. Run a Maven Build to verify that the project compiles correctly.
+
+
+With the code in place to load our planning problem, we now need to verify whether we can correctly load a CloudBalance dataset from the filesystem. We will therefore write a unit-test. Because OptaPlanner is a Java library, and fully supports Maven and JUnit, we can use our standard Java unit-testing skills to write tests for our OptaPlanner project.
+
+1. Create a new folder in the root of your project called `data/cloudbalancing/unsolved`.
+
+2. In this folder, create a file called `4computers-12processes.xml`, and add the following content:
+
+```
+<CloudBalance id="1">
+  <id>0</id>
+  <computerList id="2">
+    <CloudComputer id="3">
+      <id>0</id>
+      <cpuPower>24</cpuPower>
+      <memory>96</memory>
+      <networkBandwidth>16</networkBandwidth>
+      <cost>4800</cost>
+    </CloudComputer>
+    <CloudComputer id="4">
+      <id>1</id>
+      <cpuPower>6</cpuPower>
+      <memory>4</memory>
+      <networkBandwidth>6</networkBandwidth>
+      <cost>660</cost>
+    </CloudComputer>
+    <CloudComputer id="5">
+      <id>2</id>
+      <cpuPower>6</cpuPower>
+      <memory>16</memory>
+      <networkBandwidth>4</networkBandwidth>
+      <cost>680</cost>
+    </CloudComputer>
+    <CloudComputer id="6">
+      <id>3</id>
+      <cpuPower>8</cpuPower>
+      <memory>32</memory>
+      <networkBandwidth>12</networkBandwidth>
+      <cost>1270</cost>
+    </CloudComputer>
+  </computerList>
+  <processList id="7">
+    <CloudProcess id="8">
+      <id>0</id>
+      <requiredCpuPower>1</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="9">
+      <id>1</id>
+      <requiredCpuPower>3</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="10">
+      <id>2</id>
+      <requiredCpuPower>11</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="11">
+      <id>3</id>
+      <requiredCpuPower>1</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="12">
+      <id>4</id>
+      <requiredCpuPower>5</requiredCpuPower>
+      <requiredMemory>4</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="13">
+      <id>5</id>
+      <requiredCpuPower>5</requiredCpuPower>
+      <requiredMemory>2</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="14">
+      <id>6</id>
+      <requiredCpuPower>1</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>2</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="15">
+      <id>7</id>
+      <requiredCpuPower>1</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>7</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="16">
+      <id>8</id>
+      <requiredCpuPower>1</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>5</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="17">
+      <id>9</id>
+      <requiredCpuPower>7</requiredCpuPower>
+      <requiredMemory>5</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="18">
+      <id>10</id>
+      <requiredCpuPower>3</requiredCpuPower>
+      <requiredMemory>3</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+    <CloudProcess id="19">
+      <id>11</id>
+      <requiredCpuPower>1</requiredCpuPower>
+      <requiredMemory>1</requiredMemory>
+      <requiredNetworkBandwidth>1</requiredNetworkBandwidth>
+    </CloudProcess>
+  </processList>
+</CloudBalance>
+```
+
+3. Add the following dependencies to the `pom.xml` file of your project to add JUnit functionality:
+```
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.12</version>
+  <scope>test</scope>
+</dependency>
+<dependency>
+  <groupId>org.hamcrest</groupId>
+  <artifactId>java-hamcrest</artifactId>
+  <version>2.0.0.0</version>
+  <scope>test</scope>
+</dependency>
+```
+
+4. Create the following folder in the root of your project: `src/test/java`
+
+5. In this new folder create the following package: `org.optaplanner.examples.cloudbalancing.persistence`
+
+6. In this package, create a new Java class with the following name: `CloudBalanceRepositoryTest`. Implement the class as follows:
+```
+package org.optaplanner.examples.cloudbalancing.persistence;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+
+import java.io.File;
+
+import org.junit.Test;
+import org.optaplanner.examples.cloudbalancing.domain.CloudBalance;
+
+
+/**
+ * CloudBalanceRepositoryTest
+ */
+public class CloudBalanceRepositoryTest {
+
+    @Test
+    public void testLoadCloudBalance() {
+        CloudBalanceRepository repository = new CloudBalanceRepository();
+        File inputFile = new File("data/cloudbalancing/unsolved/4computers-12processes.xml");
+        CloudBalance cloudBalance = repository.loadCloudBalance(inputFile);
+
+        assertThat(4, is(cloudBalance.getComputerList().size()));
+        assertThat(12, is(cloudBalance.getProcessList().size()));
+    }
+
+}
+```
+
+7. Run the Unit test by running a Maven Build. The output should show the test being execute:
+```
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running org.optaplanner.examples.cloudbalancing.persistence.CloudBalanceRepositoryTest
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.595 sec
+
+Results :
+
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
+```
+
+Now that we have the ability to load planning problem data, we can go the next step of our project: configuring the solver!
