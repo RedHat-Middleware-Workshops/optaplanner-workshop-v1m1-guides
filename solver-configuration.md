@@ -46,7 +46,111 @@ In our sample solver configuration, we're using the _Easy Java Score Calculation
 
 1. Either start from the project you've been building in this workshop so far, or import the following project into your CodeReady Workspaces environment: [https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs-step-4](https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs-step-4)
 
-2. Bla
+2. We will first implement a skeleton `ScoreCalculator`. In your project, create a new Java package called `org.optaplanner.examples.cloudbalancing.optional.score`. In this package, create a new Java class called `CloudBalancingEasyScoreCalculator`, and give it the following implementation:
+
+```
+package org.optaplanner.examples.cloudbalancing.optional.score;
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.core.impl.score.director.easy.EasyScoreCalculator;
+import org.optaplanner.examples.cloudbalancing.domain.CloudBalance;
+
+/**
+ * CloudBalancingEasyScoreCalculator
+ */
+public class CloudBalancingEasyScoreCalculator implements EasyScoreCalculator<CloudBalance> {
+
+    @Override
+    public HardSoftScore calculateScore(CloudBalance solution) {
+        int hardScore = 0;
+        int softScore = 0;
+
+        return HardSoftScore.of(hardScore, softScore);
+    }
+
+
+}
+```
+
+    Note that this is a dummy implementation that always returns the same score. We only require this implementation at the moment to configure our solver and run our first OptaPlanner run. In a later module of this workshop we will properly implement our constraints and score.
+
+3. We will now create our solver configuration. In the `src/main/resources` directory of your project, create a new folder called `org/optaplanner/examples/cloudbalancing/solver`. In this folder, create a new XML file called `cloudBalancingSolverConfig.xml`. Give it the following content:
+```
+<solver>
+  <scanAnnotatedClasses/>
+  <scoreDirectorFactory>
+    <easyScoreCalculatorClass>org.optaplanner.examples.cloudbalancing.optional.score.CloudBalancingEasyScoreCalculator</easyScoreCalculatorClass>
+  </scoreDirectorFactory>
+  <termination>
+    <millisecondsSpentLimit>5000</millisecondsSpentLimit>
+  </termination>
+</solver>
+```
+
+    Note that setting the `termination` is not strictly necessary. However, if we don't set the termination, and we start the `Solver`, OptaPlanner will keep solving indefinitely (as we're basically solving unsolvable problems). Setting the _termination strategy_ instructs OptaPlanner to stop the solver, in this case after 5000 milliseconds. OptaPlanner provides multiple termination strategies, like _Unimproved Time Spent Termination_, _Best Score Termination_ and _Step Count Termination_.
+
+We now have an implementation of our domain model, a very basic score calculator, a solver config, and solution file loader. Let's create a unit test in which we can run and test our solve.
+
+1. In our project's `src/test/java` folder, in the package `org.optaplanner.examples.cloudbalancing.solver` folder, create a new Java class called `CloudBalancingSolverTest.java`. Give it the following implementation:
+
+```
+package org.optaplanner.examples.cloudbalancing;
+
+import java.io.File;
+
+import org.junit.Test;
+import org.optaplanner.core.api.solver.Solver;
+import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.examples.cloudbalancing.domain.CloudBalance;
+import org.optaplanner.examples.cloudbalancing.persistence.CloudBalanceRepository;
+
+/**
+ * CloudBalancingSolverTest
+ */
+public class CloudBalancingSolverTest {
+
+    @Test
+    public void testSolver() {
+        //Create the solver from our solver configuration.
+        SolverFactory<CloudBalance> solverFactory = SolverFactory.createFromXmlResource("org/optaplanner/examples/cloudbalancing/solver/cloudBalancingSolverConfig.xml");
+        Solver<CloudBalance> solver = solverFactory.buildSolver();
+
+        //Loud a problem into the PlanningSolution
+        CloudBalanceRepository repository = new CloudBalanceRepository();
+        File inputFile = new File("data/cloudbalancing/unsolved/4computers-12processes.xml");
+        CloudBalance cloudBalance = repository.load(inputFile);
+
+        //Run the solver.
+        solver.solve(cloudBalance);
+
+    }
+
+}
+```
+
+    Because we've configured a _termination strategy_ of 5 seconds (5000 milliseconds), the solver will stop after 5 seconds and the test will pass.
+
+2. Run the Unit test by running a Maven Build. The output should show the test being executed.
+
+
+Let's quickly observe the output. When OptaPlanner solves a problem, it runs a number of different phases. The first real outpur line of the `Solver`, after the domain classes have been scanned for annotations, is the following:
+
+```
+13:20:39.825 [main] INFO org.optaplanner.core.impl.solver.DefaultSolver - Solving started: time spent (10), best score (-12init/0hard/0soft), environment mode (REPRODUCIBLE), random (JDK with seed 0).
+```
+
+Looking at this line, we can identify the _score_ of the solution when OptaPlanner starts: (-12init/0hard/0soft). The important part in this score is the _-12init_. This indicates that we have an _uninitialized_ solution. An _uninitialized solution_ is a solution in which the _PlanningEntities_ have not yet been assigned a _PlanningVariable_. In this case we have a problem with 12 _PlanningEntities_ (in our case 12 instances of `CloudProcess`), that have not yet been assigned to a `CloudComputer`.
+
+In the next line we see the following:
+
+```
+13:20:39.832 [main] DEBUG org.optaplanner.core.impl.constructionheuristic.DefaultConstructionHeuristicPhase -     CH step (0), time spent (17), score (-11init/0hard/0soft), selected move count (4), picked move (org.optaplanner.examples.cloudbalancing.domain.CloudProcess@1c742ed4 {null -> org.optaplanner.examples.cloudbalancing.domain.CloudComputer@333d4a8c}).
+```
+
+First we see _CH step (0)_. _CH_ stands for _Construction Heuristics_, the first phase in an OptaPlanner `Solver` run in which OptaPlanner will construct an initialized solution (assigning PlanningVariables to PlanningEntities) in a "smart" way (OptaPlanner provides various construction heuristics algorithms).
+
+The second thing we observe is the score: (-11init/0hard/0soft). We see that the _init_ score is decreased by 1. This is due to the fact that OptaPlanner has assigned a planning variable to one of our planning entities. In fact, we can see the actual _move_ that was picked by OptaPlanner as well. The "_(org.optaplanner.examples.cloudbalancing.domain.CloudProcess@1c742ed4 {null -> org.optaplanner.examples.cloudbalancing.domain.CloudComputer@333d4a8c})_" part of the line indicates that the planning variable of `CloudProcess@1c742ed4` has been changed from `null` to `CloudComputer@333d4a8c`.
+
 
 
 

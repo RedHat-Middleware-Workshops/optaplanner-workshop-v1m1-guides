@@ -16,5 +16,7 @@ modules:
     name: Domain Model Planning Solution
   persistence:
     name: Persistence
+  solver-configuration:
+    name: Solver configuration
   finish:
     name: Conclusion

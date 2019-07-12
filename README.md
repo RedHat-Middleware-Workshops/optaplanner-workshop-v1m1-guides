@@ -10,8 +10,9 @@ Agenda
 * Use case overview
 * Introduction to OptaPlanner
 * Domain Modeling concepts
-* Constraints
-* Domain model design.
+* Persistence
+* Solver Configuration
+
 
 Lab Instructions on OpenShift
 ===
