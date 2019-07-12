@@ -36,4 +36,5 @@ modules:
   - domain-model
   - domain-model-planning-solution
   - persistence
+  - solver-configuration
   - finish
