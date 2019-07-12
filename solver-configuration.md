@@ -133,6 +133,8 @@ public class CloudBalancingSolverTest {
 2. Run the Unit test by running a Maven Build. The output should show the test being executed.
 
 
+## Explaining the Logs
+
 Let's quickly observe the output. When OptaPlanner solves a problem, it runs a number of different phases. The first real outpur line of the `Solver`, after the domain classes have been scanned for annotations, is the following:
 
 ```
@@ -140,7 +142,7 @@ Let's quickly observe the output. When OptaPlanner solves a problem, it runs a n
 ```
 
 Looking at this line, we can identify the _score_ of the solution when OptaPlanner starts: (-12init/0hard/0soft). The important part in this score is the _-12init_. This indicates that we have an _uninitialized_ solution. An _uninitialized solution_ is a solution in which the _PlanningEntities_ have not yet been assigned a _PlanningVariable_. In this case we have a problem with 12 _PlanningEntities_ (in our case 12 instances of `CloudProcess`), that have not yet been assigned to a `CloudComputer`.
-
+When we scr
 In the next line we see the following:
 
 ```
@@ -151,8 +153,24 @@ First we see _CH step (0)_. _CH_ stands for _Construction Heuristics_, the first
 
 The second thing we observe is the score: (-11init/0hard/0soft). We see that the _init_ score is decreased by 1. This is due to the fact that OptaPlanner has assigned a planning variable to one of our planning entities. In fact, we can see the actual _move_ that was picked by OptaPlanner as well. The "_(org.optaplanner.examples.cloudbalancing.domain.CloudProcess@1c742ed4 {null -> org.optaplanner.examples.cloudbalancing.domain.CloudComputer@333d4a8c})_" part of the line indicates that the planning variable of `CloudProcess@1c742ed4` has been changed from `null` to `CloudComputer@333d4a8c`.
 
+When we scroll down in the logs, we can see the following line:
+```
+13:20:39.836 [main] INFO org.optaplanner.core.impl.constructionheuristic.DefaultConstructionHeuristicPhase - Construction Heuristic phase (0) ended: time spent (21), best score (0hard/0soft), score calculation speed (5444/sec), step total (12).
+```
 
+This indicates that the _Construction Heuristics_ phase has ended. The next phase in an OptaPlanner run is the _Local Search_ or _LS_ phase. (note that you can have multiple _LS_ phases, but the default configuration is a single phase). We can see that in the next line in the logs:
 
+```
+13:20:39.841 [main] DEBUG org.optaplanner.core.impl.localsearch.DefaultLocalSearchPhase -     LS step (0), time spent (26), score (0hard/0soft),     best score (0hard/0soft), accepted/selected move count (1/1), picked move (org.optaplanner.examples.cloudbalancing.domain.CloudProcess@5c86a017
+```
+
+In this phase, OptaPlanner uses a _Local Search_ algorithm, like [_Late Acceptance_](https://docs.optaplanner.org/7.23.0.Final/optaplanner-docs/html_single/index.html#lateAcceptance) or [_Tabu Search_](https://docs.optaplanner.org/7.23.0.Final/optaplanner-docs/html_single/index.html#tabuSearch), to find better and better solutions. Because we're dealing with so called NP-Complete or NP-Hard problems, we can never know if we've found the optimal solution to a problem. Hence, OptaPlanner will continue searching for better solutions during the _Local Search_ phase until either:
+- another thread stops the solver via the `Solver.terminateEarly()` method.
+- the configured _Termination Strategy_ stops the `Solver`.
+
+We can also see that every step in the _Local Search_ phase results in the same score: _(0hard/0soft)_. This is due to the fact that we've not implemented our constraints yet in a proper `ScoreCalculator`.
+
+We now have an OptaPlanner application that is executable. In the the next module we will implement our constraints in two types of score calculators.
 
 
 
