@@ -37,7 +37,7 @@ To be able to keep track of the _score_ of our solution, the planning solution c
 2. Add the following variable to your `CloudBalance` class and generate getters and setters for this new variable.
 
 ```
-private HardSoftScore scoreHolder;
+private HardSoftScore score;
 ```
 3. Annotate the getter of the score with the `@PlanningScore` annotation:
 
