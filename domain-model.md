@@ -5,7 +5,7 @@ In this section you will learn
 
 1. How to analyze an optimization problem domain.
 
-2. How to create a domain model in CodeReady.
+2. How to create a domain model in CodeReady Workspaces.
 
 3. How to annotate your domain model with the correct OptaPlanner annotations.
 

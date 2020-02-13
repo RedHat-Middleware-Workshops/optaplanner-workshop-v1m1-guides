@@ -44,7 +44,7 @@ Second, the solver needs to be instructed which `ScoreCalculator` needs to be co
 In our sample solver configuration, we're using the _Easy Java Score Calculation_. Let's configure our first solver, implement a simple score calculator and run our first OptaPlanner `Solver`.
 
 
-1. Either start from the project you've been building in this workshop so far, or import the following project into your CodeReady Workspaces environment: [https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs-step-4](https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs-step-4)
+1. Open CodeReady Workspaces and open your project from the previous lab. You can also import the following project from GitHub and use it as a starting point for this module: [https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs-step-4](https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs-step-4)
 
 2. We will first implement a skeleton `ScoreCalculator`. In your project, create a new Java package called `org.optaplanner.examples.cloudbalancing.optional.score`. In this package, create a new Java class called `CloudBalancingEasyScoreCalculator`, and give it the following implementation:
 
