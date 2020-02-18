@@ -200,15 +200,15 @@ private List<CloudProcess> processList;
 
 6. Add the following 2 constructors to the class:
 
-```
-public CloudBalance() {
-}
 
-public CloudBalance(List<CloudComputer> computerList, List<CloudProcess> processList) {
-  this.computerList = computerList;
-  this.processList = processList;
-}
-```
+  public CloudBalance() {
+  }
+
+  public CloudBalance(List<CloudComputer> computerList, List<CloudProcess> processList) {
+    this.computerList = computerList;
+    this.processList = processList;
+  }
+  
 
 7. Run a Maven Build to test the project.
 
