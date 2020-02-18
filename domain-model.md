@@ -96,7 +96,7 @@ public CloudComputer(int cpuPower, int memory, int networkBandwidth, int cost) {
 }
 ~~~
 
-Bla
++
 
 ![CRW Cloud Computer Constructors]({% image_path crw-cloud-computer-constructors.png %}){:width="600px"}
 
