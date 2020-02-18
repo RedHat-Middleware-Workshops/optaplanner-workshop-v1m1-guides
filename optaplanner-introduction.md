@@ -68,9 +68,9 @@ So, the number of possible solutions in which we can assign 300 processes to 100
 
 When we compare this with the number of _atoms in the observable universe_, which is 10 ^ 80, we can see how large these solution spaces are.
 
-The image below shows the search spaces for a number of differen planning problems:
+The image below shows the search spaces for a number of different planning problems:
 
-![Planning Problem]({% image_path search-space.png %}){:width="600px"}
+![Planning Problem]({% image_path search-spaces.png %}){:width="600px"}
 
 
 ## Solving the problem
