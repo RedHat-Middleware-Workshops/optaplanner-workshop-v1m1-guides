@@ -56,7 +56,11 @@ In the initial screen, the `New Workspace` screen, that the platform provides us
     ![CodeReady Workspaces Workspace Created]({% image_path codeready-workspace-created.png %}){:width="600px"}
 6. In the _Repository URL_ command window, enter the URL `https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs` and press _Enter_.
     ![CRW Git Clone Command Window]({% image_path crw-git-clone-command-window.png %}){:width="600px"}
-7. In the _Project Configuration_ screen, select `Maven` and click the _Save_ button.
+7. We now have to select the location where we want to store the repository. We want to store the repository in `/projects`. To do this, first select `/` in the dropdown menu at the top of the window. Next, double click on the `projects` folder to select it. Finally, click on the _Select repository location_ button at the bottom of the window.
+    ![CRW Select Location Dropdown Home]({% image_path crw-select-location-dropdown-home.png %}){:width="600px"}
+    ![CRW Select Location Projects List]({% image_path crw-select-location-projects-list.png %}){:width="600px"}
+    ![CRW Select Location Projects Folder]({% image_path crw-select-location-projects-folder.png %}){:width="600px"}
+7. In the lower right corner, a pop-up will appead.
 
 Our imported project is an empty Maven Java JAR project, with a number of predefined dependencies in the POM file, and a number of default folders, i.e. `src/main/java` and `src/main/resources`. Open the POM file by clicking on the `pom.xml` file of the project. Observe the dependencies that have been pre-defined, the the `optaplanner-core` dependency.
 
