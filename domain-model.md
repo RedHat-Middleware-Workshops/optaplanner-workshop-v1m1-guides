@@ -96,6 +96,8 @@ public CloudComputer(int cpuPower, int memory, int networkBandwidth, int cost) {
 }
 ~~~
 
+Bla
+
 ![CRW Cloud Computer Constructors]({% image_path crw-cloud-computer-constructors.png %}){:width="600px"}
 
 6. Test your implementation by running a Maven build. Like we did before:
