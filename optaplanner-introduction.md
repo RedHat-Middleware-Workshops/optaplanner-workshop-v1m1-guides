@@ -70,7 +70,7 @@ When we compare this with the number of _atoms in the observable universe_, whic
 
 The image below shows the search spaces for a number of different planning problems:
 
-![Planning Problem]({% image_path search-spaces.png %}){:width="600px"}
+![Search Spaces]({% image_path search-spaces.png %}){:width="600px"}
 
 
 ## Solving the problem
