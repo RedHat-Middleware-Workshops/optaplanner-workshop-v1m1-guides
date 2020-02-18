@@ -73,20 +73,26 @@ Our imported project is an empty Maven Java JAR project, with a number of predef
 
 ### Compiling the project
 
-To make sure our skeleton project for Lab1 is properly imported and configured, we will first run a Maven build. To do this, we need to access the CodeReady commands as show in the image below:
+To make sure our skeleton project for Lab1 is properly imported and configured, we will first run a Maven build. To do this, we first need to access a new terminal in our _Maven_ workspace user runtime. Click on the _My Workspace_ button on the right-hand side of the workspace, the icon that looks like a cube.
 
-![CodeReady Manage Commands]({% image_path codeready-manage-commands.png %}){:width="600px"}
+![CRW Workspace User Runtimes ]({% image_path crw-workspace-user-runtimes.png %}){:width="600px"}
 
-In the commands section, expand the _Build_ section, click on `build`, and in the main window of the IDE, click on the green `RUN` button.
+Click on *>_ New Terminal* to create a new terminal. In this terminal:
 
-![CodeReady Maven Builds]({% image_path codeready-maven-builds.png %}){:width="600px"}
+. Navigate into your project: `cd optaplanner-workshop-v1m1-labs`
+. Run a Maven build: `mvn clean install`
 
-A build will run and the output will be displayed in the console at the bottom of the screen. If the build succeeded, the following message will be displayed:
+![CRW Maven Clean Install]({% image_path crw-maven-clean-install.png %}){:width="600px"}
+
+If all goes well, you should see the project build successfully:
+
+![CRW Maben Build Lab1 Successful]({% image_path crw-maven-build-lab1-successful.png %}){:width="600px"}
+
 ```
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 9.697 s
-[INFO] Finished at: 2019-07-02T14:19:06Z
+[INFO] Total time: 2.758 s
+[INFO] Finished at: 2020-02-18T11:11:25Z
 [INFO] ------------------------------------------------------------------------
 ```
