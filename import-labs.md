@@ -87,12 +87,3 @@ Click on *>_ New Terminal* to create a new terminal. In this terminal:
 If all goes well, you should see the project build successfully:
 
 ![CRW Maben Build Lab1 Successful]({% image_path crw-maven-build-lab1-successful.png %}){:width="600px"}
-
-```
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 2.758 s
-[INFO] Finished at: 2020-02-18T11:11:25Z
-[INFO] ------------------------------------------------------------------------
-```
