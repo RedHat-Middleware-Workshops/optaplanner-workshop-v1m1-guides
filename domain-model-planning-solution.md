@@ -36,17 +36,18 @@ To be able to keep track of the _score_ of our solution, the planning solution c
 
 2. Add the following variable to your `CloudBalance` class and generate getters and setters for this new variable.
 
-```
+~~~java
 private HardSoftScore score;
-```
+~~~
+
 3. Annotate the getter of the score with the `@PlanningScore` annotation:
 
-```
+~~~java
 @PlanningScore
 public HardSoftScore getScore() {
   return score;
 }
-```
+~~~
 
 4. Run a Maven Build to verify your project still compiles correctly.
 
@@ -56,12 +57,12 @@ With our _score_ variable added, our planning solution can now keep track of the
 
 OptaPlanner needs to know which methods of our planning solution class provides the collection of planning entities. Since our planning entity is the `Process` class, we need to find the method that provides the collection of processes. In our `CloudBalance` class, this is the `getProcessList`. Annotate this method with the `@PlanningEntityCollectionProperty`:
 
-```
+~~~java
 @PlanningEntityCollectionProperty
 public List<CloudProcess> getProcessList() {
   return processList;
 }
-```
+~~~
 
 ## Planning Variable Ref
 
@@ -74,15 +75,17 @@ A `ValueRangeProvider` is usually defined on the `PlanningSolution`, although th
 2. Open the `CloudBalance` class and locate its `getComputerList` method. This method provides the value range of our planning variable.
 
 3. Annotate the method with the following annotation:
-```
+
+~~~java
 @ValueRangeProvider(id = "computerRange")
 public List<CloudComputer> getComputerList() {
-```
+~~~
 
 4. We now need to define the value range provider on our planning variable. Open the `CloudProcess` class, i.e. our planning entity. Locate the `getComputer` method that we've annotated earlier with our `@PlanningVariable` annotation. Add the _value range provider_ references to the annotation to refer to the `ValueRangeProvider` we just configured on our planning solution class.
-```
+
+~~~java
 @PlanningVariable(valueRangeProviderRefs = {"computerRange"})
-```
+~~~
 
 5. Run a Maven Build to verify that the project compiles correctly.
 
