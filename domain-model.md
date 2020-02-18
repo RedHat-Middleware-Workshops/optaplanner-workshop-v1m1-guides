@@ -65,7 +65,7 @@ We will call our class `CloudComputer`. Let's implement this class in our projec
 
     ![CRW Java Project New Folder]({% image_path crw-java-project-new-folder.png %}){:width="600px"}
 
-2. Expand the folder structure you've jusr created, right-click on the `domain` folder and click on _New File_. Name the file `CloudComputer.java`.
+2. Expand the folder structure you've just created, right-click on the `domain` folder and click on _New File_. Name the file `CloudComputer.java`.
 
     ![CRW Java Project New File]({% image_path crw-java-project-new-file.png %}){:width="600px"}
 
@@ -96,7 +96,7 @@ public CloudComputer(int cpuPower, int memory, int networkBandwidth, int cost) {
 }
 ```
 
-    ![CodeReady Workspaces Cloud Computer Constructors]({% image_path codeready-cloud-computer-constructors.png %}){:width="600px"}
+    ![CRW Cloud Computer Constructors]({% image_path crw-cloud-computer-constructors.png %}){:width="600px"}
 
 6. Test your implementation by running a Maven build. Like we did before:
 
