@@ -11,20 +11,21 @@ In this section you will learn
 
 The Domain Model of a planning problem is defined as simple POJOs (Plain Old Java Objects), annotated with OptaPlanner annotations to provide additional meta-data to the OptaPlanner engine. This meta-data describes, among other things, the:
 
-- Planning Entities: A planning entity is a JavaBean (POJO) that changes during solving. For example, a `Process` that gets assigned to different computers, or a `ShiftAssignment` that gets assigned to employees.
-- Planning Variable: a variable (or property, or attribute) of a _PlannningEntity_. This is the property that OptaPlanner can 'play with' during planning. For example the `computer` property of a `Process`, or the `employee` and `shift` of a `ShiftAssignment`.
-- PlanningSolution: A dataset for a planning problem needs to be wrapped in a class OptaPlanner to solve. The solution class represents both the planning problem and (if solved) a solution. The `PlanningSolution` also holds the _score_ of the solution.
+- _Planning Entities_: A planning entity is a JavaBean (POJO) that changes during solving. For example, a `Process` that gets assigned to different computers, or a `ShiftAssignment` that gets assigned to employees.
+- _Planning Variable_: a variable (or property, or attribute) of a _PlannningEntity_. This is the property that OptaPlanner can 'play with' during planning. For example the `computer` property of a `Process`, or the `employee` and `shift` of a `ShiftAssignment`.
+- _Planning Solution_ A dataset for a planning problem needs to be wrapped in a class OptaPlanner to solve. The solution class represents both the planning problem and (if solved) a solution. The `PlanningSolution` also holds the _score_ of the solution.
 
 
 
 ## The Planning Problem
 
 As stated in the use-case, our planning problem is assigning _Processes_ to _Computers_. The _Computers_ have a certain capacity of:
+
 - CPU
 - Memory
 - Network bandwidth
 
-Also, a _Computer_ has a certain cost. I.e. when a computer is being used because a _Process_ has been assigned to it, we have to pay for the computer. As stated in the use-case, the optimization goal is to minimize the costs of our computers.
+Also, a _Computer_ has a certain cost. I.e. when a _Computer_ is being used because a _Process_ has been assigned to it, we have to pay for the computer. As stated in the use-case, the optimization goal is to minimize the costs of our computers.
 
 ---
 **NOTE**
@@ -34,6 +35,7 @@ In this planning problem we only have a single property on which we want to opti
 ---
 
 The _Processes_ that we need to assign to our _Computers_ require a certain amount of:
+
 - CPU
 - Memory
 - Network bandwidth
@@ -43,6 +45,7 @@ Our goal is to define the domain model that describes our planning problem, and 
 ## The Model: Computer
 
 When we analyse our use-case description, we can clearly identify 2 classes:
+
 - `Computer`
 - `Process`
 
@@ -56,23 +59,28 @@ Let's start with the `Computer`. Our computer has 4 properties:
 | cost             | int  | Cost of the computer           |
 
 
-We will call our class `CloudComputer`. Let's implement this class in our project. We will use the following package name to keep our implementation aligned with the examples provided with the OptaPlanner distirbution: `org.optaplanner.examples.cloudbalancing.domain`
+We will call our class `CloudComputer`. Let's implement this class in our project. We will use the following package name to keep our implementation aligned with the examples provided with the OptaPlanner distribution: `org.optaplanner.examples.cloudbalancing.domain`
 
-1. Go back to your CodeReady Workspaces environment. In the project you've imported, expand the folder `src/main/java`. Right-click on the _java_ folder and click on _New -> Java Package_. Give the package the name: `org.optaplanner.examples.cloudbalancing.domain`
+1. Go back to your CodeReady Workspaces environment. In the project you've imported, expand the folder `src/main/java`. Right-click on the _java_ folder and click on _New Folder_. Give the folder the name of our package: `org/optaplanner/examples/cloudbalancing/domain`
 
-    ![CodeReady Workspaces New Package]({% image_path codeready-new-package.png %}){:width="600px"}
+    ![CRW Java Project New Folder]({% image_path crw-java-project-new-folder.png %}){:width="600px"}
 
-2. Right-click on the package you've just created and click on _New -> Java Class_. Name the class `CloudComputer`.
+2. Expand the folder structure you've jusr created, right-click on the `domain` folder and click on _New File_. Name the file `CloudComputer.java`.
 
-    ![CodeReady Workspaces New Java Class]({% image_path codeready-new-java-class.png %}){:width="600px"}
+    ![CRW Java Project New File]({% image_path crw-java-project-new-file.png %}){:width="600px"}
 
-3. In your newly created class, create the 4 private variables listed in table above:
+3. In your newly created class, start typing the word `class`. A popup will appear in which you can select a _class_ structure that will automatically generated the Java class skeleton for your class for you (select the bottom _class_ defintion in the popup):
 
-    ![CodeReady Workspaces Cloud Computer 1]({% image_path codeready-cloud-computer-1.png %}){:width="600px"}
+    ![CRW Java Class Code Completion]({% image_path crw-java-class-code-completion.png %}){:width="600px"}
+    ![CRW Java Class Code Completion 2]({% image_path crw-java-class-code-completion-2.png %}){:width="600px"}
 
-4. With the 4 variables created, we need to create the accessors (getter and setter methods). Right click in the editor and in the pop-up menu select _Quick Fix_ and double click on _Generate Getters and Setters_:
+4. Implement the 4 variables listed in the table:
 
-    ![CodeReady Workspaces Cloud Computer Quick Fix]({% image_path codeready-cloud-computer-quick-fix.png %}){:width="600px"}
+    ![CRW Cloud Computer Variables]({% image_path crw-cloud-computer-variables.png %}){:width="600px"}
+
+5. With the 4 variables created, we need to create the accessors (getter and setter methods). Right click in the editor and in the pop-up menu select _Source Action_ and double click on _Generate Getters and Setters_:
+
+    ![CodeReady Workspaces Cloud Computer Quick Fix]({% image_path crw-cloud-computer-getter-setters_.png %}){:width="600px"}
 
 5.  With the getters and setters created, we only need to create the following 2 constructors to our class:
 
@@ -90,27 +98,22 @@ public CloudComputer(int cpuPower, int memory, int networkBandwidth, int cost) {
 
     ![CodeReady Workspaces Cloud Computer Constructors]({% image_path codeready-cloud-computer-constructors.png %}){:width="600px"}
 
-6. Test your implementation by running a Maven build. One way of doing this is by clicking on _Run -> Commands Palette_, and in the Commands Palette, click on _Maven Build_:
+6. Test your implementation by running a Maven build. Like we did before:
 
-    ![CodeReady Workspaces Run Commands Palette]({% image_path codeready-commands-palette.png %}){:width="600px"}
+- open a terminal (or use the one you used before if that one is still open).
+- navigate to your project directory if you're not already in that directory: `cd /projects/optaplanner-workshop-v1m1-labs`
+- Run a Maven build: `mvn clean install`
 
-    ![CodeReady Workspaces Run Commands Palette Maven Build]({% image_path codeready-commands-palette-maven-build.png %}){:width="600px"}
+![CRW Terminal Maven Clean Install]({% image_path crw-terminal-maven-clean-install.png %}){:width="600px"}
 
+If all goes well, you should see the project build successfully:
 
-7. If everything has been implemented correctly, your terminal output should say something like this:
+![CRW Maben Build Lab1 Successful]({% image_path crw-maven-build-lab1-successful.png %}){:width="600px"}
 
-```
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 12.911 s
-[INFO] Finished at: 2019-07-03T10:30:36Z
-[INFO] ------------------------------------------------------------------------
-```
 
 ## The Model: Process
 
-The second class we can identify is the `Proces`. The `Process` class has the following attributes:
+The second class we can identify is the `Process`. The `Process` class has the following attributes:
 
 |       Name               | Type          | Description                                     |
 |:------------------------:|:-------------:|-------------------------------------------------|
@@ -124,6 +127,7 @@ We will call our class `CloudProcess`. Implement the class in the same package a
 1. Create the new class `CloudProcess` in the package `org.optaplanner.examples.cloudbalancing.domain`.
 2. Create the variables and their getters and setters.
 3. Create the following 2 constructors:
+
 ```
 public CloudProcess() {
 }
@@ -134,6 +138,7 @@ public CloudProcess(int requiredCpuPower, int requiredMemory, int requiredNetwor
     this.requiredNetworkBandwidth = requiredNetworkBandwidth;
 }
 ```
+
 4. Run a Maven build to verify that your project compiles successfully.
 
 
@@ -142,6 +147,7 @@ public CloudProcess(int requiredCpuPower, int requiredMemory, int requiredNetwor
 So far, we've implemented the 2 classes of our domain, `CloudComputer` and `CloudProcess`. We now need to define which of these classes is our `PlanningEntity`, and which property (or properties) of the `PlanningEntity` is the `PlanningVariable`.
 
 There is a rule of thumb to determine the `PlanningEntity` and `PlanningVariables` of your problem domain.
+
 1. Draw a class diagram of your problem domain, including the relationships between your classes:
 
     ![Cloud Balance Class Diagram 1]({% image_path cloudBalanceClassDiagram_1.png %}){:width="600px"}
