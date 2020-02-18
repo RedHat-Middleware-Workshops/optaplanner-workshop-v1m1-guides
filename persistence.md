@@ -23,7 +23,8 @@ We will use XStream as our XML serialization and deserialization library. OptaPl
 
 
 1. Create a new class with the name `AbstractPersistable` in the same package of our domain model and give it the following implemenation:
-```
+
+~~~java
 package org.optaplanner.examples.cloudbalancing.domain;
 
 import org.optaplanner.core.api.domain.lookup.PlanningId;
@@ -52,24 +53,25 @@ public abstract class AbstractPersistable {
     }
 
 }
-```
+~~~
 
 2. Have our 3 domain model classes, `CloudBalance`, `CloudProcess` and `CloudComputer` extend from our `AbstractPersistable` class, e.g.:
-```
+
+~~~java
 public class CloudBalance extends AbstractPersistable {
-```
+~~~
 
 3. Change the constructors of these classes to accept an id, and have them cal their abstract super class. I.e.:
 
-```
+~~~java
 public CloudBalance(Long id, List<CloudComputer> computerList, List<CloudProcess> processList) {
   super(id);
   this.computerList = computerList;
   this.processList = processList;
 }
-```
+~~~
 
-```
+~~~java
 public CloudComputer(long id, int cpuPower, int memory, int networkBandwidth, int cost) {
   super(id);
   this.cpuPower = cpuPower;
@@ -77,39 +79,39 @@ public CloudComputer(long id, int cpuPower, int memory, int networkBandwidth, in
   this.networkBandwidth = networkBandwidth;
   this.cost = cost;
 }
-```
+~~~
 
-```
+~~~java
 public CloudProcess(long id, int requiredCpuPower, int requiredMemory, int requiredNetworkBandwidth) {
   super(id);
   this.requiredCpuPower = requiredCpuPower;
   this.requiredMemory = requiredMemory;
   this.requiredNetworkBandwidth = requiredNetworkBandwidth;
 }
-```
+~~~
 
 4. Add an `@XStreamAlias` annotation to our 3 domain model classes:
 
-```
+~~~java
 @PlanningSolution
 @XStreamAlias("CloudBalance")
 public class CloudBalance extends AbstractPersistable {
-```
+~~~
 
-```
+~~~java
 @XStreamAlias("CloudComputer")
 public class CloudComputer extends AbstractPersistable {
-```
+~~~
 
-```
+~~~java
 @PlanningEntity
 @XStreamAlias("CloudProcess")
 public class CloudProcess extends AbstractPersistable {
-```
+~~~
 
 5. Create a _Repository_ class that is responsible for loading the planning problem from the XML files. Give the class the name `CloudBalanceRepository` and store it in the package `org.optaplanner.examples.cloudbalancing.persistence`. Give it the following implementation:
 
-```
+~~~java
 package org.optaplanner.examples.cloudbalancing.persistence;
 
 import java.io.File;
@@ -127,7 +129,7 @@ public class CloudBalanceRepository {
         return solutionFileIO.read(inputSolutionFile);
     }
 }
-```
+~~~
 
 6. Run a Maven Build to verify that the project compiles correctly.
 
@@ -138,7 +140,7 @@ With the code in place to load our planning problem, we now need to verify wheth
 
 2. In this folder, create a file called `4computers-12processes.xml`, and add the following content:
 
-```
+~~~xml
 <CloudBalance id="1">
   <id>0</id>
   <computerList id="2">
@@ -246,10 +248,11 @@ With the code in place to load our planning problem, we now need to verify wheth
     </CloudProcess>
   </processList>
 </CloudBalance>
-```
+~~~
 
 3. Add the following dependencies to the `pom.xml` file of your project to add JUnit functionality:
-```
+
+~~~xml
 <dependency>
   <groupId>junit</groupId>
   <artifactId>junit</artifactId>
@@ -262,14 +265,15 @@ With the code in place to load our planning problem, we now need to verify wheth
   <version>2.0.0.0</version>
   <scope>test</scope>
 </dependency>
-```
+~~~
 
 4. Create the following folder in the root of your project: `src/test/java`
 
 5. In this new folder create the following package: `org.optaplanner.examples.cloudbalancing.persistence`
 
 6. In this package, create a new Java class with the following name: `CloudBalanceRepositoryTest`. Implement the class as follows:
-```
+
+~~~java
 package org.optaplanner.examples.cloudbalancing.persistence;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -297,10 +301,11 @@ public class CloudBalanceRepositoryTest {
     }
 
 }
-```
+~~~
 
 7. Run the Unit test by running a Maven Build. The output should show the test being execute:
-```
+
+~~~
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
@@ -310,6 +315,6 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.595 sec
 Results :
 
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
-```
+~~~
 
 Now that we have the ability to load planning problem data, we can go the next step of our project: configuring the solver!
