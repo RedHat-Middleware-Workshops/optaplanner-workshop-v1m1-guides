@@ -4,8 +4,6 @@ The Cloud Optimization problem deals with the problem of assigning processes to 
 
 The optimization goal in this use-case is to minimize the costs of the computers. Note that there could be other optimization goals for this planning problem, for example to only use 80% of the available resources of the computer.
 
-
-
 ## Background
 
 Assigning processes to computers is a variant of the classical _bin packing problem_. In the _bin packing problem_, items of different volumes must be packed into a finite number of bins or containers, each of a fixed given volume in a way that minimizes the number of bins used.

@@ -26,9 +26,10 @@ Red Hat CodeReady Workspaces provides:
 
 A CodeReady Workspaces environment has been created for every workshop user. To access your environment access the [CodeReady Workspacess IDE]({{ CODEREADY_WORKSPACES_URL }}). You can login with the OpenShift username and password that have been provided to you.
 
-- In the CodeReady Workspaces login screen, click on "Openshift v3" on the right part of the form. You will be redirected to the OpenShift login screen.
+- CodeReady Workspaces uses OpenShift OAuth Single-Sign-On as the login mechanism. In the OpenShift login screen, click on `htpasswd_provider`.
     ![CodeReady Workspaces Login OpenShift]({% image_path codeready-login-openshift.png %}){:width="600px"}
 - Login with the workshop credentials that have been provided to you.
+    ![CodeReady Workspaces Login OpenShift 2]({% image_path codeready-login-openshift-2.png %}){:width="600px"}
 - An _Authorize Access_ screen will be presented. Leave `user_full` checkbox checked and click on `Allow selected permissions`.
     ![CodeReady Workspaces Authorize Access]({% image_path codeready-authorize-access.png %}){:width="600px"}
 - In the next screen, provide additional user information. This can be dummy information for this workshop.
@@ -46,14 +47,15 @@ CodeReady allows us to directly import existing projects from GitHub.
 In the initial screen, the `New Workspace` screen, that the platform provides us, we can import a new project.
 
 1. Provide a name for your workspace, postfixed by your username. E.g, `optaplanner-lab1-user1` if you're username is `user1`.
-2. Select the _stack_. In this case we select `Java 1.8`.
-3. Set the RAM (memory) of the `dev-machine` to 2GB (default value).
+2. Select the _stack_. In this case we select `Java Maven`.
+3. By default, CodeReady Workspaces wants to import a sample `console-java-simple` project. We can remove that project by clicking on the `Remove` button.
+    ![CodeReady Workspaces Remove Sample project]({% image_path crw-remove-sample-project.png %}){:width="600px"}
 4. Click on `Create and Open` button to create the workspace.
     ![CodeReady Workspaces New Workspace]({% image_path codeready-new-workspace.png %}){:width="600px"}
-5. When the workspace has been created, click on `Import Project`.
+5. When the workspace has been created, click on `Git Clone...`, which can be found under the `New` section.
     ![CodeReady Workspaces Workspace Created]({% image_path codeready-workspace-created.png %}){:width="600px"}
-6. In the _Import Project_ window, select `GITHUB` as the _Version Control System_, set the URL to `https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs` and click on the _Import_ button.
-    ![CodeReady Workspaces Import Lab 1]({% image_path codeready-workspaces-import-lab1.png %}){:width="600px"}
+6. In the _Repository URL_ command window, enter the URL `https://github.com/RedHat-Middleware-Workshops/optaplanner-workshop-v1m1-labs` and press _Enter_.
+    ![CRW Git Clone Command Window]({% image_path crw-git-clone-command-window.png %}){:width="600px"}
 7. In the _Project Configuration_ screen, select `Maven` and click the _Save_ button.
 
 Our imported project is an empty Maven Java JAR project, with a number of predefined dependencies in the POM file, and a number of default folders, i.e. `src/main/java` and `src/main/resources`. Open the POM file by clicking on the `pom.xml` file of the project. Observe the dependencies that have been pre-defined, the the `optaplanner-core` dependency.
