@@ -60,7 +60,11 @@ In the initial screen, the `New Workspace` screen, that the platform provides us
     ![CRW Select Location Dropdown Home]({% image_path crw-select-location-dropdown-home.png %}){:width="600px"}
     ![CRW Select Location Projects List]({% image_path crw-select-location-projects-list.png %}){:width="600px"}
     ![CRW Select Location Projects Folder]({% image_path crw-select-location-projects-folder.png %}){:width="600px"}
-7. In the lower right corner, a pop-up will appead.
+7. In the lower right corner, a pop-up will appear, asking you whether you want to open the repository or add it to your workspace. Click on _Add to Workspace_.
+    ![CRW Add Repository Workspace]({% image_path crw-add-repository-workspace.png %}){:width="600px"}
+8. In the upper-left corner of your screen, click on the _Document_ icon to open your workspace _Explorer_. You will see your cloned repository in the explorer view.
+    ![CRW Lab1 In Explorer]({% image_path crw-lab1-in-explorer.png %}){:width="600px"}
+
 
 Our imported project is an empty Maven Java JAR project, with a number of predefined dependencies in the POM file, and a number of default folders, i.e. `src/main/java` and `src/main/resources`. Open the POM file by clicking on the `pom.xml` file of the project. Observe the dependencies that have been pre-defined, the the `optaplanner-core` dependency.
 
