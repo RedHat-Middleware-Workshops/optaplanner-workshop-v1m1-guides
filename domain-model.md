@@ -84,7 +84,7 @@ We will call our class `CloudComputer`. Let's implement this class in our projec
 
 5.  With the getters and setters created, we only need to create the following 2 constructors to our class:
 
-```
+~~~java
 public CloudComputer() {
     }
 
@@ -94,7 +94,7 @@ public CloudComputer(int cpuPower, int memory, int networkBandwidth, int cost) {
   this.networkBandwidth = networkBandwidth;
   this.cost = cost;
 }
-```
+~~~
 
     ![CRW Cloud Computer Constructors]({% image_path crw-cloud-computer-constructors.png %}){:width="600px"}
 
@@ -128,7 +128,7 @@ We will call our class `CloudProcess`. Implement the class in the same package a
 2. Create the variables and their getters and setters.
 3. Create the following 2 constructors:
 
-```
+~~~java
 public CloudProcess() {
 }
 
@@ -137,7 +137,7 @@ public CloudProcess(int requiredCpuPower, int requiredMemory, int requiredNetwor
     this.requiredMemory = requiredMemory;
     this.requiredNetworkBandwidth = requiredNetworkBandwidth;
 }
-```
+~~~
 
 4. Run a Maven build to verify that your project compiles successfully.
 
@@ -186,11 +186,11 @@ We will call the `PlanningSolution` of our planning problem `CloudBalance` (as o
 
 3. This planning solution class will be the container for the dataset of the problem that we need to solve. Hence, we create 2 `Lists`, on list of computers and one list of processes:
 
-```
+~~~java
 private List<CloudComputer> computerList;
 
 private List<CloudProcess> processList;
-```
+~~~
 
 4. It can be that the `List` type is not yet imported into your class and it will be marked with red crosses with the message "_List cannot be resolved to a type_". This can be solved by using the _Organize Imports_ feature of CodeReady. Click on _Assistant -> Organize Imports_, select `java.util.List` and click on _Finish_:
 
@@ -200,15 +200,15 @@ private List<CloudProcess> processList;
 
 6. Add the following 2 constructors to the class:
 
+~~~java
+public CloudBalance() {
+}
 
-  public CloudBalance() {
-  }
-
-  public CloudBalance(List<CloudComputer> computerList, List<CloudProcess> processList) {
-    this.computerList = computerList;
-    this.processList = processList;
-  }
-  
+public CloudBalance(List<CloudComputer> computerList, List<CloudProcess> processList) {
+  this.computerList = computerList;
+  this.processList = processList;
+}
+~~~  
 
 7. Run a Maven Build to test the project.
 
