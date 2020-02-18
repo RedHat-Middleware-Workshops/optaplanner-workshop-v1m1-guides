@@ -82,7 +82,7 @@ Click on *>_ New Terminal* to create a new terminal. In this terminal:
 . Navigate into your project: `cd optaplanner-workshop-v1m1-labs`
 . Run a Maven build: `mvn clean install`
 
-![CRW Maven Clean Install]({% image_path crw-maven-clean-install.png %}){:width="600px"}
+![CRW Terminal Maven Clean Install]({% image_path crw-terminal-maven-clean-install.png %}){:width="600px"}
 
 If all goes well, you should see the project build successfully:
 
