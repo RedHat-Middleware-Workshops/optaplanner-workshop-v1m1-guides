@@ -20,14 +20,14 @@ The solver configuration of OptaPlanner is defined in an XML file. The basic fil
 
 A basic solver configuration looks like this:
 
-```
+~~~xml
 <solver>
   <scanAnnotatedClasses/>
   <scoreDirectorFactory>
     <easyScoreCalculatorClass>org.optaplanner.examples.cloudbalancing.optional.score.CloudBalancingEasyScoreCalculator</easyScoreCalculatorClass>
   </scoreDirectorFactory>
 </solver>
-```
+~~~
 
 In this config, we define that we want to scan our classes for annotations. This allows OptaPlanner to find/discover our planning solution and planning entity classes.
 
@@ -48,7 +48,7 @@ In our sample solver configuration, we're using the _Easy Java Score Calculation
 
 2. We will first implement a skeleton `ScoreCalculator`. In your project, create a new Java package called `org.optaplanner.examples.cloudbalancing.optional.score`. In this package, create a new Java class called `CloudBalancingEasyScoreCalculator`, and give it the following implementation:
 
-```
+~~~java
 package org.optaplanner.examples.cloudbalancing.optional.score;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
@@ -70,12 +70,13 @@ public class CloudBalancingEasyScoreCalculator implements EasyScoreCalculator<Cl
 
 
 }
-```
+~~~
 
     Note that this is a dummy implementation that always returns the same score. We only require this implementation at the moment to configure our solver and run our first OptaPlanner run. In a later module of this workshop we will properly implement our constraints and score.
 
 3. We will now create our solver configuration. In the `src/main/resources` directory of your project, create a new folder called `org/optaplanner/examples/cloudbalancing/solver`. In this folder, create a new XML file called `cloudBalancingSolverConfig.xml`. Give it the following content:
-```
+
+~~~java
 <solver>
   <scanAnnotatedClasses/>
   <scoreDirectorFactory>
@@ -85,7 +86,7 @@ public class CloudBalancingEasyScoreCalculator implements EasyScoreCalculator<Cl
     <millisecondsSpentLimit>5000</millisecondsSpentLimit>
   </termination>
 </solver>
-```
+~~~
 
     Note that setting the `termination` is not strictly necessary. However, if we don't set the termination, and we start the `Solver`, OptaPlanner will keep solving indefinitely (as we're basically solving unsolvable problems). Setting the _termination strategy_ instructs OptaPlanner to stop the solver, in this case after 5000 milliseconds. OptaPlanner provides multiple termination strategies, like _Unimproved Time Spent Termination_, _Best Score Termination_ and _Step Count Termination_.
 
@@ -93,7 +94,7 @@ We now have an implementation of our domain model, a very basic score calculator
 
 1. In our project's `src/test/java` folder, in the package `org.optaplanner.examples.cloudbalancing.solver` folder, create a new Java class called `CloudBalancingSolverTest.java`. Give it the following implementation:
 
-```
+~~~java
 package org.optaplanner.examples.cloudbalancing;
 
 import java.io.File;
@@ -126,7 +127,7 @@ public class CloudBalancingSolverTest {
     }
 
 }
-```
+~~~
 
     Because we've configured a _termination strategy_ of 5 seconds (5000 milliseconds), the solver will stop after 5 seconds and the test will pass.
 
@@ -137,32 +138,33 @@ public class CloudBalancingSolverTest {
 
 Let's quickly observe the output. When OptaPlanner solves a problem, it runs a number of different phases. The first real outpur line of the `Solver`, after the domain classes have been scanned for annotations, is the following:
 
-```
+~~~
 13:20:39.825 [main] INFO org.optaplanner.core.impl.solver.DefaultSolver - Solving started: time spent (10), best score (-12init/0hard/0soft), environment mode (REPRODUCIBLE), random (JDK with seed 0).
-```
+~~~
 
 Looking at this line, we can identify the _score_ of the solution when OptaPlanner starts: (-12init/0hard/0soft). The important part in this score is the _-12init_. This indicates that we have an _uninitialized_ solution. An _uninitialized solution_ is a solution in which the _PlanningEntities_ have not yet been assigned a _PlanningVariable_. In this case we have a problem with 12 _PlanningEntities_ (in our case 12 instances of `CloudProcess`), that have not yet been assigned to a `CloudComputer`.
 When we scr
 In the next line we see the following:
 
-```
+~~~
 13:20:39.832 [main] DEBUG org.optaplanner.core.impl.constructionheuristic.DefaultConstructionHeuristicPhase -     CH step (0), time spent (17), score (-11init/0hard/0soft), selected move count (4), picked move (org.optaplanner.examples.cloudbalancing.domain.CloudProcess@1c742ed4 {null -> org.optaplanner.examples.cloudbalancing.domain.CloudComputer@333d4a8c}).
-```
+~~~
 
 First we see _CH step (0)_. _CH_ stands for _Construction Heuristics_, the first phase in an OptaPlanner `Solver` run in which OptaPlanner will construct an initialized solution (assigning PlanningVariables to PlanningEntities) in a "smart" way (OptaPlanner provides various construction heuristics algorithms).
 
 The second thing we observe is the score: (-11init/0hard/0soft). We see that the _init_ score is decreased by 1. This is due to the fact that OptaPlanner has assigned a planning variable to one of our planning entities. In fact, we can see the actual _move_ that was picked by OptaPlanner as well. The "_(org.optaplanner.examples.cloudbalancing.domain.CloudProcess@1c742ed4 {null -> org.optaplanner.examples.cloudbalancing.domain.CloudComputer@333d4a8c})_" part of the line indicates that the planning variable of `CloudProcess@1c742ed4` has been changed from `null` to `CloudComputer@333d4a8c`.
 
 When we scroll down in the logs, we can see the following line:
-```
+
+~~~
 13:20:39.836 [main] INFO org.optaplanner.core.impl.constructionheuristic.DefaultConstructionHeuristicPhase - Construction Heuristic phase (0) ended: time spent (21), best score (0hard/0soft), score calculation speed (5444/sec), step total (12).
-```
+~~~
 
 This indicates that the _Construction Heuristics_ phase has ended. The next phase in an OptaPlanner run is the _Local Search_ or _LS_ phase. (note that you can have multiple _LS_ phases, but the default configuration is a single phase). We can see that in the next line in the logs:
 
-```
+~~~
 13:20:39.841 [main] DEBUG org.optaplanner.core.impl.localsearch.DefaultLocalSearchPhase -     LS step (0), time spent (26), score (0hard/0soft),     best score (0hard/0soft), accepted/selected move count (1/1), picked move (org.optaplanner.examples.cloudbalancing.domain.CloudProcess@5c86a017
-```
+~~~
 
 In this phase, OptaPlanner uses a _Local Search_ algorithm, like [_Late Acceptance_](https://docs.optaplanner.org/7.23.0.Final/optaplanner-docs/html_single/index.html#lateAcceptance) or [_Tabu Search_](https://docs.optaplanner.org/7.23.0.Final/optaplanner-docs/html_single/index.html#tabuSearch), to find better and better solutions. Because we're dealing with so called NP-Complete or NP-Hard problems, we can never know if we've found the optimal solution to a problem. Hence, OptaPlanner will continue searching for better solutions during the _Local Search_ phase until either:
 - another thread stops the solver via the `Solver.terminateEarly()` method.
@@ -170,8 +172,4 @@ In this phase, OptaPlanner uses a _Local Search_ algorithm, like [_Late Acceptan
 
 We can also see that every step in the _Local Search_ phase results in the same score: _(0hard/0soft)_. This is due to the fact that we've not implemented our constraints yet in a proper `ScoreCalculator`.
 
-We now have an OptaPlanner application that is executable. In the the next module we will implement our constraints in two types of score calculators.
-
-
-
-Now that we have the ability to load planning problem data, we can go the next step of our project: configuring the solver!
+We now have an OptaPlanner application that is executable. In the the next module we will implement our constraints in three types of score calculators.
