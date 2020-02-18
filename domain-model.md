@@ -80,7 +80,7 @@ We will call our class `CloudComputer`. Let's implement this class in our projec
 
 5. With the 4 variables created, we need to create the accessors (getter and setter methods). Right click in the editor and in the pop-up menu select _Source Action_ and double click on _Generate Getters and Setters_:
 
-    ![CodeReady Workspaces Cloud Computer Quick Fix]({% image_path crw-cloud-computer-getter-setters_.png %}){:width="600px"}
+    ![CRW Cloud Computer Getters Setters]({% image_path crw-cloud-computer-getters-setters.png %}){:width="600px"}
 
 5.  With the getters and setters created, we only need to create the following 2 constructors to our class:
 
